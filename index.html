@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
+      <title>Phoria - Dev test page 0</title>
+      <script src="Phoria%20-%20Dev%20test%20page%200_arquivos/gl-matrix.js"></script>
+      <script src="Phoria%20-%20Dev%20test%20page%200_arquivos/phoria-util.js"></script>
+      <script src="Phoria%20-%20Dev%20test%20page%200_arquivos/phoria-entity.js"></script>
+      <script src="Phoria%20-%20Dev%20test%20page%200_arquivos/phoria-scene.js"></script>
+      <script src="Phoria%20-%20Dev%20test%20page%200_arquivos/phoria-renderer.js"></script>
+      
+      <script>
+
+window.addEventListener('load', onloadHandler, false);
+
+function onloadHandler()
+{
+   var canvas = document.getElementById('canvas');
+   
+   var scene = new Phoria.Scene();
+   scene.camera.position = {x:0.0, y:5.0, z:-15.0};
+   scene.perspective.aspect = canvas.width / canvas.height;
+   scene.viewport.width = canvas.width;
+   scene.viewport.height = canvas.height;
+   
+   var renderer = new Phoria.CanvasRenderer(canvas);
+
+   var plane = Phoria.Util.generateTesselatedPlane(8,8,0,20);
+   scene.graph.push(Phoria.Entity.create({
+      points: plane.points,
+      edges: plane.edges,
+      polygons: plane.polygons,
+      style: {
+         drawmode: "wireframe",
+         shademode: "plain",
+         linewidth: 0.5,
+         objectsortmode: "back"
+      }
+   }));
+   var c = Phoria.Util.generateUnitCube();
+   var cube = Phoria.Entity.create({
+      points: c.points,
+      edges: c.edges,
+      polygons: c.polygons
+   });
+   scene.graph.push(cube);
+   scene.graph.push(new Phoria.DistantLight());
+  
+         cube.rotateY(0.5*Phoria.RADIANS);
+         scene.modelView();
+         renderer.render(scene);
+
+     
+}
+      </script>
+   </head>
+   
+   <body style="background-color: #bfbfbf">
+      <canvas id="canvas" width="768" height="512" style="background-color: #eee"></canvas>
+     </body></html>
